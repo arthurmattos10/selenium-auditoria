@@ -7,6 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
+# ===== PARTE 1: CONFIGURAÇÃO INICIAL =====
+
 options = Options()
 options.add_argument("--headless=new")
 options.add_argument("--window-size=1920,1080")
@@ -20,6 +22,8 @@ driver = webdriver.Chrome(
 
 driver.implicitly_wait(10)
 
+# ===== PARTE 2: IMPLEMENTAÇÃO DE MÚLTIPLAS ABAS =====
+
 driver.get("https://the-internet.herokuapp.com/dropdown")
 
 print("Abas abertas:", len(driver.window_handles))
@@ -32,7 +36,6 @@ while len(driver.window_handles) < 2:
 print("Segunda aba aberta!")
 
 driver.switch_to.window(driver.window_handles[1])
-
 print("URL aba 1:", driver.current_url)
 
 driver.execute_script("window.open('https://pt.wikipedia.org');")
@@ -43,7 +46,6 @@ while len(driver.window_handles) < 3:
 print("Terceira aba aberta!")
 
 driver.switch_to.window(driver.window_handles[2])
-
 print("URL aba 2:", driver.current_url)
 
 print("Total de abas:", len(driver.window_handles))
@@ -53,25 +55,18 @@ print("Total de abas:", len(driver.window_handles))
 driver.switch_to.window(driver.window_handles[0])
 print("Voltando para aba 0:", driver.current_url)
 
-
 dropdown_element = driver.find_element(By.ID, "dropdown")
-
 select = Select(dropdown_element)
 
 select.select_by_visible_text("Option 1")
-
 print("Option 1 selecionada")
 
-
 selected_option = select.first_selected_option
-
 value = selected_option.get_attribute("value")
 
 print("Valor selecionado:", value)
 
-
 # ===== PARTE 4: ESPERA EXPLÍCITA (CONTEÚDO DINÂMICO) =====
-
 
 driver.switch_to.window(driver.window_handles[1])
 print("Voltando para aba 1:", driver.current_url)
@@ -87,21 +82,16 @@ finish_element = wait.until(
 )
 
 texto = finish_element.text
-
 print("Texto carregado:", texto)
-
 
 # ===== PARTE 5: EXTRAÇÃO DE DADOS E EVIDÊNCIA =====
 
 driver.switch_to.window(driver.window_handles[2])
 print("Voltando para aba 2:", driver.current_url)
 
-
 search_input = driver.find_element(By.ID, "searchInput")
 search_input.send_keys("Automação")
-
 print("Texto digitado na busca")
-
 
 link_menu = driver.find_element(By.CSS_SELECTOR, "#p-tb a")
 
@@ -110,7 +100,6 @@ href_link = link_menu.get_attribute("href")
 
 print("Texto do link:", texto_link)
 print("Destino do link:", href_link)
-
 
 driver.save_screenshot("evidencia_wiki.png")
 print("Screenshot salvo como evidencia_wiki.png")
