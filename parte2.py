@@ -2,7 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import Select, WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
@@ -67,5 +68,27 @@ selected_option = select.first_selected_option
 value = selected_option.get_attribute("value")
 
 print("Valor selecionado:", value)
+
+
+# ===== PARTE 4: ESPERA EXPLÍCITA (CONTEÚDO DINÂMICO) =====
+
+
+driver.switch_to.window(driver.window_handles[1])
+print("Voltando para aba 1:", driver.current_url)
+
+start_button = driver.find_element(By.CSS_SELECTOR, "#start button")
+start_button.click()
+print("Botão Start clicado")
+
+wait = WebDriverWait(driver, 15)
+
+finish_element = wait.until(
+    EC.visibility_of_element_located((By.ID, "finish"))
+)
+
+texto = finish_element.text
+
+print("Texto carregado:", texto)
+
 
 driver.quit()
