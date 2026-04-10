@@ -91,4 +91,29 @@ texto = finish_element.text
 print("Texto carregado:", texto)
 
 
+# ===== PARTE 5: EXTRAÇÃO DE DADOS E EVIDÊNCIA =====
+
+driver.switch_to.window(driver.window_handles[2])
+print("Voltando para aba 2:", driver.current_url)
+
+
+search_input = driver.find_element(By.ID, "searchInput")
+search_input.send_keys("Automação")
+
+print("Texto digitado na busca")
+
+
+link_menu = driver.find_element(By.CSS_SELECTOR, "#p-tb a")
+
+texto_link = link_menu.text
+href_link = link_menu.get_attribute("href")
+
+print("Texto do link:", texto_link)
+print("Destino do link:", href_link)
+
+
+driver.save_screenshot("evidencia_wiki.png")
+print("Screenshot salvo como evidencia_wiki.png")
+
+
 driver.quit()
